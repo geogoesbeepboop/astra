@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/layout/card';
+import { Button } from './ui/interactive/button';
+import { Badge } from './ui/data-display/badge';
 import { Play, Edit, Plus, RotateCcw } from 'lucide-react';
 
 interface QuickAccessSectionProps {
@@ -105,7 +105,7 @@ export function QuickAccessSection({ onCreateNew, debugEmptyState }: QuickAccess
           size="lg"
         >
           <Plus className="w-5 h-5 mr-2" />
-          Create New Workflow
+          Setup A New Job
         </Button>
       </div>
 
