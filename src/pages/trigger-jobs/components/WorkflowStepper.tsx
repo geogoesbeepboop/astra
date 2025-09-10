@@ -5,6 +5,7 @@ import { Badge } from '../../../components/ui/data-display/badge';
 import { Progress } from '../../../components/ui/feedback/progress';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { CoreConfigStep } from './core-config-step';
+import { TestConfigStep } from './test-config-step';
 import { AdvancedOptionsStep } from './advanced-options-step';
 import { ScheduleConfigStep } from './schedule-config-step';
 import { ConfirmationStep } from './confirmation-step';
@@ -14,9 +15,10 @@ import { WorkflowStepperProps, WorkflowConfig } from '../../../types';
 
 const steps = [
   { id: 1, name: 'Core Config', required: true },
-  { id: 2, name: 'Advanced Options', required: true },
-  { id: 3, name: 'Schedule Config', required: false }, // Only shown for schedule jobs
-  { id: 4, name: 'Confirmation', required: true }
+  { id: 2, name: 'Test Configuration', required: true },
+  { id: 3, name: 'Advanced Options', required: true },
+  { id: 4, name: 'Schedule Config', required: false }, // Only shown for schedule jobs
+  { id: 5, name: 'Confirmation', required: true }
 ];
 
 export function WorkflowStepper({ onClose }: WorkflowStepperProps) {
@@ -25,8 +27,9 @@ export function WorkflowStepper({ onClose }: WorkflowStepperProps) {
   const [config, setConfig] = useState<WorkflowConfig>({
     platform: 'iPhone', // Default selection
     environment: 'Sit1', // Default selection  
-    suite: 'regression', // Default selection
-    releaseVersion: '1.0.0', // Default selection
+    suite: 'custom', // Default selection
+    releaseVersion: '25.09.0', // Default selection
+    build: 'latest', // Default selection
     executionType: 'run-now',
     customScript: 'default', // Default selection
     deviceFarm: 'perfecto', // Default selection
@@ -80,6 +83,7 @@ export function WorkflowStepper({ onClose }: WorkflowStepperProps) {
         environment: '',
         suite: '',
         releaseVersion: '',
+        build: '',
         executionType: 'run-now',
         customScript: '',
         deviceFarm: '',
@@ -144,6 +148,15 @@ export function WorkflowStepper({ onClose }: WorkflowStepperProps) {
           )}
           
           {currentStep === 2 && (
+            <TestConfigStep 
+              config={config} 
+              onUpdate={updateConfig}
+              onNext={handleNext}
+              onBack={handleBack}
+            />
+          )}
+          
+          {currentStep === 3 && (
             <AdvancedOptionsStep 
               config={config} 
               onUpdate={updateConfig}
@@ -152,7 +165,7 @@ export function WorkflowStepper({ onClose }: WorkflowStepperProps) {
             />
           )}
           
-          {currentStep === 3 && config.executionType === 'schedule' && (
+          {currentStep === 4 && config.executionType === 'schedule' && (
             <ScheduleConfigStep 
               config={config} 
               onUpdate={updateConfig}
@@ -161,8 +174,8 @@ export function WorkflowStepper({ onClose }: WorkflowStepperProps) {
             />
           )}
           
-          {((currentStep === 3 && config.executionType === 'run-now') || 
-            (currentStep === 4 && config.executionType === 'schedule')) && (
+          {((currentStep === 4 && config.executionType === 'run-now') || 
+            (currentStep === 5 && config.executionType === 'schedule')) && (
             <ConfirmationStep 
               config={config} 
               onUpdate={updateConfig}

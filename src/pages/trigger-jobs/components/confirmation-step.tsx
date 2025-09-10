@@ -101,6 +101,10 @@ export function ConfirmationStep({ config, onUpdate, onSubmit, onBack }: Confirm
                 <span className="text-muted-foreground">Release Version:</span>
                 <span className="ml-2">{config.releaseVersion}</span>
               </div>
+              <div>
+                <span className="text-muted-foreground">Build:</span>
+                <span className="ml-2 capitalize">{config.build}</span>
+              </div>
               <div className="col-span-2">
                 <span className="text-muted-foreground">Execution Type:</span>
                 <Badge className="ml-2" variant={config.executionType === 'schedule' ? 'secondary' : 'default'}>
@@ -118,10 +122,6 @@ export function ConfirmationStep({ config, onUpdate, onSubmit, onBack }: Confirm
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-muted-foreground">Custom Script:</span>
-                <span className="ml-2">{config.customScript || 'None'}</span>
-              </div>
               <div>
                 <span className="text-muted-foreground">Device Farm:</span>
                 <span className="ml-2">{config.deviceFarm || 'None'}</span>
@@ -154,6 +154,70 @@ export function ConfirmationStep({ config, onUpdate, onSubmit, onBack }: Confirm
             </div>
           </CardContent>
         </Card>
+
+        {/* Test Configuration Summary */}
+        {config.testSuiteConfig && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Test Configuration</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <span className="text-muted-foreground">Test Suite Type:</span>
+                  <Badge className="ml-2" variant="outline">
+                    {config.testSuiteConfig.type === 'custom' ? 'Custom Selection' : 'Premade Suite'}
+                  </Badge>
+                </div>
+                
+                {config.testSuiteConfig.type === 'premade' && config.testSuiteConfig.premadeId && (
+                  <div>
+                    <span className="text-muted-foreground">Suite:</span>
+                    <span className="ml-2">{config.testSuiteConfig.premadeId.replace('_', ' ')}</span>
+                  </div>
+                )}
+                
+                <div>
+                  <span className="text-muted-foreground">Test Cases Selected:</span>
+                  <span className="ml-2">
+                    {config.testSuiteConfig.selectedTestCases?.length || 
+                     config.testSuiteConfig.customSelection?.selectedTestCases?.length || 0} test cases
+                  </span>
+                </div>
+                
+                <div>
+                  <span className="text-muted-foreground">Applications Configured:</span>
+                  <div className="mt-1">
+                    <div className="flex flex-wrap gap-1">
+                      {(() => {
+                        const selectedTestCases = config.testSuiteConfig.selectedTestCases || 
+                                                 config.testSuiteConfig.customSelection?.selectedTestCases || [];
+                        const allApps = new Set<string>();
+                        selectedTestCases.forEach((tc: any) => {
+                          tc.selectedApps?.forEach((appId: string) => allApps.add(appId));
+                        });
+                        return Array.from(allApps).map(appId => {
+                          const appNames: { [key: string]: string } = {
+                            'mobile-app': 'Mobile App',
+                            'web-app': 'Web App',
+                            'desktop-app': 'Desktop App',
+                            'tablet-app': 'Tablet App',
+                            'admin-portal': 'Admin Portal'
+                          };
+                          return (
+                            <Badge key={appId} variant="outline" className="text-xs">
+                              {appNames[appId] || appId}
+                            </Badge>
+                          );
+                        });
+                      })()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Schedule Details - Only for scheduled jobs */}
         {config.executionType === 'schedule' && config.scheduleConfig && (

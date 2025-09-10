@@ -13,31 +13,39 @@ function Navigation() {
     <nav className="bg-[#1e3a8a] text-white px-6 py-4 shadow-lg">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center">
-          <div className="flex space-x-6">
-            <Link
-              to="/insights"
-              className={`px-6 py-3 border-b-2 transition-colors ${
-                isActive('/insights')
-                  ? 'bg-blue-600/30 text-white border-white'
-                  : 'text-blue-100 border-transparent hover:text-white hover:bg-blue-600/20'
-              }`}
-            >
-              Insights
-            </Link>
-            <Link
-              to="/triggerjobs"
-              className={`px-6 py-3 border-b-2 transition-colors ${
-                isActive('/triggerjobs')
-                  ? 'bg-blue-600/30 text-white border-white'
-                  : 'text-blue-100 border-transparent hover:text-white hover:bg-blue-600/20'
-              }`}
-            >
-              Automation
-            </Link>
+          <div className="flex items-center space-x-8">
+            {/* ASTRA Branding
+            <div className="text-xl font-bold text-white">
+              ASTRA
+            </div> */}
+            
+            {/* Navigation Links */}
+            <div className="flex space-x-4">
+              <Link
+                to="/insights"
+                className={`px-4 py-3 border-b-2 transition-colors ${
+                  isActive('/insights')
+                    ? 'bg-blue-600/30 text-white border-white'
+                    : 'text-blue-100 border-transparent hover:text-white hover:bg-blue-600/20'
+                }`}
+              >
+                Insights
+              </Link>
+              <Link
+                to="/triggerjobs"
+                className={`px-4 py-3 border-b-2 transition-colors ${
+                  isActive('/triggerjobs')
+                    ? 'bg-blue-600/30 text-white border-white'
+                    : 'text-blue-100 border-transparent hover:text-white hover:bg-blue-600/20'
+                }`}
+              >
+                Automation
+              </Link>
+            </div>
           </div>
 
           {/* Debug Toggle */}
-          <div className="ml-6">
+          <div className="flex-shrink-0">
             <Button
               variant="outline"
               size="sm"

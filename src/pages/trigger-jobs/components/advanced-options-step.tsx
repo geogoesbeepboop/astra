@@ -14,14 +14,6 @@ interface AdvancedOptionsStepProps {
 }
 
 // Mock data for dropdowns
-const customScripts = [
-  { value: 'default', label: 'Default Script' },
-  { value: 'performance-test', label: 'Performance Test Script' },
-  { value: 'security-scan', label: 'Security Scan Script' },
-  { value: 'load-test', label: 'Load Test Script' },
-  { value: 'custom-validation', label: 'Custom Validation Script' }
-];
-
 const deviceFarms = [
   { value: 'perfecto', label: 'Perfecto' },
   { value: 'emulator-simulator-grid', label: 'Emulator-Simulator Grid' },
@@ -82,26 +74,6 @@ export function AdvancedOptionsStep({ config, onUpdate, onNext, onBack }: Advanc
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column */}
         <div className="space-y-6">
-          {/* Custom Script */}
-          <div className="space-y-2">
-            <Label htmlFor="customScript">Custom Script</Label>
-            <Select 
-              value={config.customScript} 
-              onValueChange={(value) => onUpdate({ customScript: value })}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select custom script" />
-              </SelectTrigger>
-              <SelectContent>
-                {customScripts.map((script) => (
-                  <SelectItem key={script.value} value={script.value}>
-                    {script.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
           {/* Device Farm */}
           <div className="space-y-2">
             <Label htmlFor="deviceFarm">Device Farm</Label>
